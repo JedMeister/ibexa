@@ -79,21 +79,21 @@ def main():
         system("sed -i \"s|%s.*|%s%s|\" %s" % (var, var, val, conf))
 
     # tweak configuration files
-    conf = "/var/www/ezpublish/settings/siteaccess/eng/site.ini.append.php"
+    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/eng/site.ini.append.php"
     sed("SiteURL=", "%s/index.php/eng" % domain, conf)
     sed("ActionURL=", "http://%s/index.php/site_admin/user/login" % domain, conf)
     sed("AdminEmail=", email, conf)
 
-    conf = "/var/www/ezpublish/settings/siteaccess/site/site.ini.append.php"
+    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/site/site.ini.append.php"
     sed("SiteURL=", domain, conf)
     sed("ActionURL=", "http://%s/index.php/site_admin/user/login" % domain, conf)
     sed("AdminEmail=", email, conf)
 
-    conf = "/var/www/ezpublish/settings/siteaccess/site_admin/site.ini.append.php"
+    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/site_admin/site.ini.append.php"
     sed("SiteURL=", domain, conf)
     sed("AdminEmail=", email, conf)
 
-    conf = "/var/www/ezpublish/settings/override/site.ini.append.php"
+    conf = "/var/www/ezpublish/ezpublish_legacy/settings/override/site.ini.append.php"
     sed("AdminEmail=", email, conf)
     
     # calculate password hash and tweak database
@@ -107,7 +107,7 @@ def main():
     m.execute('UPDATE ezpublish.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=176;' % domain)
 
     # clear cache
-    system("cd /var/www/ezpublish; su www-data -c \"php5 bin/php/ezcache.php --quiet --clear-all --purge\"")
+    system("cd /var/www/ezpublish/ezpublish_legacy; su www-data -s /bin/sh -c \"php5 bin/php/ezcache.php --quiet --clear-all --purge\"")
 
 if __name__ == "__main__":
     main()
