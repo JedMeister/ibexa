@@ -16,19 +16,24 @@ CONF=/etc/apache2/mods-available/substitute.conf
 sed -i "s|</body>|</footer>|g" $CONF
 
 # unpack and set permissions
-tar -zxf $SRC/ezpublish_*.tar.gz -C $(dirname $WEBROOT)
-mv $(dirname $WEBROOT)/ezpublish_* $WEBROOT
-rm $SRC/ezpublish_*.tar.gz
+tar -xf $SRC/ezpublish5_*.tar.gz -C $(dirname $WEBROOT)
+
+mv $(dirname $WEBROOT)/ezpublish5_* $WEBROOT
+rm $SRC/ezpublish5_*.tar.gz
 
 chown -R root:root $WEBROOT
-chown -R www-data:www-data $WEBROOT/var
-chown -R www-data:www-data $WEBROOT/design
-chown -R www-data:www-data $WEBROOT/settings
-chown -R www-data:www-data $WEBROOT/extension
+cd $WEBROOT
+chown -R www-data:www-data web
+
+cd $WEBROOT/ezpublish/
+chown -R www-data:www-data cache logs config sessions
+
+cd $WEBROOT/ezpublish_legacy/
+chown -R www-data:www-data design extension settings var
 
 # php.ini tweaks
 PHPINI=/etc/php5/apache2/php.ini
-sed -i "s|^memory_limit.*|memory_limit = 64M|" $PHPINI
+sed -i "s|^memory_limit.*|memory_limit = 256M|" $PHPINI
 sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
 
 # configure apache
@@ -48,7 +53,7 @@ $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
 
 # preseed installation
-cat >$WEBROOT/kickstart.ini<<EOF
+cat >$WEBROOT/ezpublish_legacy/kickstart.ini<<EOF
 [email_settings]
 Continue=true
 Type=mta
@@ -79,7 +84,7 @@ Access=url
 
 [site_details]
 Continue=true
-Title=TurnKey Ez Publish
+Title=TurnKey eZ Publish
 URL=http://$DOMAIN
 Access=site
 AdminAccess=site_admin
@@ -102,30 +107,35 @@ Comments=
 Send=false
 EOF
 
-# setup local ez package archive for installation
-mv $SRC/ezpublish $WEBROOT/
-sed -i "s|127.0.0.1.*|127.0.0.1 localhost packages.ez.no|" /etc/hosts
+# install local packages
+mv $SRC/ezpublish/* $WEBROOT/ezpublish_legacy/var/
+
+for i in $WEBROOT/ezpublish_legacy/var/*.ezpkg
+    do tar xf $i -C $WEBROOT/ezpublish_legacy/var
+done
+
+rm $WEBROOT/ezpublish_legacy/var/*.ezpkg
+chown -R www-data:www-data $WEBROOT/ezpublish_legacy/var
 
 # curl based install
-URL="http://127.0.0.1/index.php"
+URL="http://127.0.0.1/index.php/ezsetup"
 CURL="curl -c /tmp/cookie -b /tmp/cookie"
 $CURL $URL --data "eZSetupWizardLanguage=eng-GB&eZSetup_current_step=Welcome&eZSetup_next_button=Next+%3E"
-rm -f /tmp/cookie
-mv $WEBROOT/.htaccess_root $WEBROOT/.htaccess
+
+mv $WEBROOT/ezpublish_legacy/.htaccess_root $WEBROOT/ezpublish_legacy/.htaccess
 
 # cleanup
-rm $WEBROOT/kickstart.ini
-rm -rf $WEBROOT/ezpublish
-sed -i "s|127.0.0.1.*|127.0.0.1 localhost|" /etc/hosts
+rm $WEBROOT/ezpublish_legacy/kickstart.ini
+rm -f /tmp/cookie
 
 # secure sensitive files
-chmod 640 $WEBROOT/settings/siteaccess/eng/site.ini.append.php
-chmod 640 $WEBROOT/settings/siteaccess/site/site.ini.append.php
-chmod 640 $WEBROOT/settings/siteaccess/site_admin/site.ini.append.php
+chmod 640 $WEBROOT/ezpublish_legacy/settings/siteaccess/base/site.ini.append
+chmod 640 $WEBROOT/ezpublish_legacy/settings/siteaccess/site/site.ini.append.php
+chmod 640 $WEBROOT/ezpublish_legacy/settings/siteaccess/site_admin/site.ini.append.php
 
 # clear cache
-cd $WEBROOT
-su www-data -c "php5 bin/php/ezcache.php --clear-all --purge --no-colors"
+cd $WEBROOT/ezpublish_legacy
+su www-data -s /bin/sh -c "php5 $WEBROOT/ezpublish_legacy/bin/php/ezcache.php --clear-all --purge --no-colors"
 
 # stop services
 /etc/init.d/mysql stop
