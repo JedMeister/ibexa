@@ -14,6 +14,7 @@ import re
 import sys
 import getopt
 import inithooks_cache
+
 import hashlib
 
 from dialog_wrapper import Dialog
@@ -77,6 +78,8 @@ def main():
 
     if domain == "DEFAULT":
         domain = DEFAULT_DOMAIN
+
+    inithooks_cache.write('APP_DOMAIN', domain)
 
     def sed(var, val, conf):
         system("sed -i \"s|%s.*|%s%s|\" %s" % (var, var, val, conf))
