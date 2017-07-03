@@ -1,5 +1,5 @@
 #!/usr/bin/python
-"""Set eZPublish admin password, email and domain to serve
+"""Set eZ Platform admin password, email and domain to serve
 
 Option:
     --pass=     unless provided, will ask interactively
@@ -53,16 +53,16 @@ def main():
     if not password:
         d = Dialog('TurnKey Linux - First boot configuration')
         password = d.get_password(
-            "eZPublish Password",
-            "Enter new password for the eZPublish 'admin' account.")
+            "eZ Platform Password",
+            "Enter new password for the eZ Platform 'admin' account.")
 
     if not email:
         if 'd' not in locals():
             d = Dialog('TurnKey Linux - First boot configuration')
 
         email = d.get_email(
-            "eZPublish Email",
-            "Enter email address for the eZPublish 'admin' account.",
+            "eZ Platform Email",
+            "Enter email address for the eZ Platform 'admin' account.",
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
@@ -72,8 +72,8 @@ def main():
             d = Dialog('TurnKey Linux - First boot configuration')
 
         domain = d.get_input(
-            "eZPublish Domain",
-            "Enter the domain to serve eZPublish.",
+            "eZ Platform Domain",
+            "Enter the domain to serve eZ Platform.",
             DEFAULT_DOMAIN)
 
     if domain == "DEFAULT":
@@ -81,40 +81,17 @@ def main():
 
     inithooks_cache.write('APP_DOMAIN', domain)
 
-    def sed(var, val, conf):
-        system("sed -i \"s|%s.*|%s%s|\" %s" % (var, var, val, conf))
-
     # tweak configuration files
-    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/eng/site.ini.append.php"
-    sed("SiteURL=", "%s/index.php/eng" % domain, conf)
-    sed("ActionURL=", "http://%s/index.php/site_admin/user/login" % domain, conf)
-    sed("AdminEmail=", email, conf)
-
-    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/site/site.ini.append.php"
-    sed("SiteURL=", domain, conf)
-    sed("ActionURL=", "http://%s/index.php/site_admin/user/login" % domain, conf)
-    sed("AdminEmail=", email, conf)
-
-    conf = "/var/www/ezpublish/ezpublish_legacy/settings/siteaccess/site_admin/site.ini.append.php"
-    sed("SiteURL=", domain, conf)
-    sed("AdminEmail=", email, conf)
-
-    conf = "/var/www/ezpublish/ezpublish_legacy/settings/override/site.ini.append.php"
-    sed("AdminEmail=", email, conf)
-    
     # calculate password hash and tweak database
     hash = hashlib.md5("admin\n%s" % password).hexdigest()
 
     m = MySQL()
-    m.execute('UPDATE ezpublish.ezuser SET password_hash=\"%s\" WHERE login=\"admin\";' % hash)
-    m.execute('UPDATE ezpublish.ezuser SET email=\"%s\" WHERE login=\"admin\";' % email)
+    m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hash)
+    m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
 
-    m.execute('UPDATE ezpublish.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=175;' % email)
-    m.execute('UPDATE ezpublish.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=176;' % domain)
+    m.execute('UPDATE ezplatform.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=175;' % email)
+    m.execute('UPDATE ezplatform.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=176;' % domain)
 
-    # clear cache
-    system("cd /var/www/ezpublish/ezpublish_legacy; su www-data -s /bin/sh -c \"php5 bin/php/ezcache.php --quiet --clear-all --purge\"")
-
-if __name__ == "__main__":
-    main()
+    if __name__ == "__main__":
+      main()
 

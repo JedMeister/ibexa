@@ -7,7 +7,7 @@ dl() {
 
 
 VER="161942/957955/version/7/file/ezpublish5_community_project-2014.11.1-gpl-full.tar.gz"
-URL="http://share.ez.no/content/download/$VER"
+URL="https://ezplatform.com/content/download/208/file/ezplatform-1.9.1.tar.bz2"
 
 cd /usr/local/src
 curl -L -f -O $URL
