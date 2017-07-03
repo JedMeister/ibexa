@@ -89,9 +89,6 @@ def main():
     m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hash)
     m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
 
-    m.execute('UPDATE ezplatform.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=175;' % email)
-    m.execute('UPDATE ezplatform.ezcontentobject_attribute SET data_text=\"%s\" WHERE id=176;' % domain)
-
-    if __name__ == "__main__":
-      main()
+if __name__ == "__main__":
+    main()
 
