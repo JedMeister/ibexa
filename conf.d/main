@@ -9,7 +9,6 @@ ADMIN_PASS=turnkey
 ADMIN_MAIL=admin@example.com
 DOMAIN=www.example.com
 
-SRC=/usr/local/src
 WEBROOT=/var/www/ezplatform
 
 # tweak apache-credit
@@ -55,12 +54,15 @@ MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
 MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 
 $MYSQL_ADMIN create $DB_NAME
-$MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS'; flush privileges;"
+$MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
 
 curl -sS https://getcomposer.org/installer | php
 php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env prod clean
 php -d memory_limit=-1 composer.phar run-script post-install-cmd
+
+php app/console cache:clear --env=prod
+php app/console cache:clear --env=dev
 
 chown -R www-data:www-data app
 chown -R www-data:www-data web
