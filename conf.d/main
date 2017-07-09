@@ -9,6 +9,7 @@ ADMIN_PASS=turnkey
 ADMIN_MAIL=admin@example.com
 DOMAIN=www.example.com
 
+SRC=/usr/local/src
 WEBROOT=/var/www/ezplatform
 
 # tweak apache-credit
@@ -62,7 +63,6 @@ php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env 
 php -d memory_limit=-1 composer.phar run-script post-install-cmd
 
 php app/console cache:clear --env=prod
-php app/console cache:clear --env=dev
 
 chown -R www-data:www-data app
 chown -R www-data:www-data web
