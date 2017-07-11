@@ -67,7 +67,7 @@ def main():
     m = MySQL()
     m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hash)
     m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
-
+     
     m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
 
 if __name__ == "__main__":
