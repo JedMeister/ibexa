@@ -1,4 +1,13 @@
-turnkey-ezpublish-14.1 (1) turnkey; urgency=low
+turnkey-ezplatform-14.2 (1) turnkey; urgency=low
+
+  * eZPublish 5 -> eZ Platform
+
+  * Note: Please refer to turnkey-core's changelog for changes common to all
+    appliances. Here we only describe changes specific to this appliance.
+
+ -- Zhenya Hvorostian <zhenya@turnkeylinux.org>  Fri, 14 Jul 2017 00:25:11 +0300
+
+urnkey-ezpublish-14.1 (1) turnkey; urgency=low
 
   * Installed security updates.
 

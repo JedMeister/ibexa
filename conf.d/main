@@ -3,7 +3,6 @@
 DB_NAME=ezplatform
 DB_USER=ezplatform
 DB_PASS=$(mcookie)
-DB_SECRET=$(mcookie)$(mcookie)
 
 ADMIN_PASS=turnkey
 ADMIN_MAIL=admin@example.com
@@ -31,7 +30,7 @@ sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
 touch $WEBROOT/app/config/parameters.yml
 cat >$WEBROOT/app/config/parameters.yml<<EOF
 parameters:
-    secret: $DB_SECRET
+    secret: TURNKEY_SECRET
     database_driver: pdo_mysql
     database_host: localhost
     database_port: 3306
@@ -62,9 +61,9 @@ php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env 
 php -d memory_limit=-1 composer.phar run-script post-install-cmd
 
 php app/console cache:clear --env=prod
+rm -rf app/logs/* app/cache/*
 
-chown -R www-data:www-data app
-chown -R www-data:www-data web
+chown -R www-data:www-data app/cache app/logs web/
 
 # stop services
 /etc/init.d/mysql stop
