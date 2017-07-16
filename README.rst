@@ -1,7 +1,7 @@
-eZ publish - Enterprise Content Management System
+eZ Platform - Enterprise Content Management System
 =================================================
 
-`eZ publish`_ is a web content management system that supports the
+`eZ Platform`_ is a web content management system that supports the
 development of customized web applications. It features professional and
 secure development of web applications, content versioning, media
 library, role-based rights management, mobile development, sitemaps,
@@ -10,9 +10,9 @@ search and printing.
 This appliance includes all the standard features in `TurnKey Core`_,
 and on top of that:
 
-- eZ publish configurations:
+- eZ Platform configurations:
    
-   - Installed from upstream source code to /var/www/ezpublish
+   - Installed from upstream source code to /var/www/ezplatform
 
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
@@ -25,9 +25,9 @@ Credentials *(passwords set at first boot)*
 -------------------------------------------
 
 - Webmin, SSH, MySQL, Adminer: username **root**
-- eZ publish: username is email set on first boot
+- eZ Platform: username is **admin**
 
 
-.. _eZ publish: http://ez.no/
+.. _eZ Platform: http://ezplatform.com/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: http://www.adminer.org/
