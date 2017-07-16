@@ -15,7 +15,7 @@ CONF=/etc/apache2/mods-available/substitute.conf
 sed -i "s|</body>|</footer>|g" $CONF
 
 # unpack and set permissions
-tar -xf $SRC/ezplatform*.tar.bz2 -C $(dirname $WEBROOT)
+tar --no-same-owner -xf $SRC/ezplatform*.tar.bz2 -C $(dirname $WEBROOT)
 
 mv $(dirname $WEBROOT)/ezplatform* $WEBROOT
 rm $SRC/ezplatform*.tar.bz2
@@ -55,15 +55,12 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
-
 curl -sS https://getcomposer.org/installer | php
 php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env prod clean
 php -d memory_limit=-1 composer.phar run-script post-install-cmd
 
-php app/console cache:clear --env=prod
 rm -rf app/logs/* app/cache/*
-
-chown -R www-data:www-data app/cache app/logs web/
+chown -R www-data:www-data app/cache app/logs web
 
 # stop services
 /etc/init.d/mysql stop
