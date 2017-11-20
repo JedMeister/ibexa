@@ -1,9 +1,9 @@
 #include <turnkey/base>
 #include <turnkey/lamp>
 
-php5-gd
-php5-curl
-php5-intl
-php5-xsl
+php-gd
+php-curl
+php-intl
+php-xsl
 bzip2
 
