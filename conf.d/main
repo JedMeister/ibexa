@@ -22,8 +22,8 @@ rm $SRC/ezplatform*.tar.bz2
 
 cd $WEBROOT
 # php.ini tweaks
-PHPINI=/etc/php5/apache2/php.ini
-sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php5/cli/php.ini
+PHPINI=/etc/php/7.0/apache2/php.ini
+sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php/7.0/cli/php.ini
 sed -i "s|^memory_limit.*|memory_limit = 256M|" $PHPINI
 sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
 
@@ -46,7 +46,6 @@ a2enmod rewrite
 
 # start services
 /etc/init.d/mysql start
-/etc/init.d/apache2 start
 
 # setup the database
 MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
@@ -55,14 +54,11 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
-curl -sS https://getcomposer.org/installer | php
 php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env prod clean
-php -d memory_limit=-1 composer.phar run-script post-install-cmd
+composer run-script post-install-cmd
 
 rm -rf app/logs/* app/cache/*
 chown -R www-data:www-data app/cache app/logs web
 
 # stop services
 /etc/init.d/mysql stop
-/etc/init.d/apache2 stop
-

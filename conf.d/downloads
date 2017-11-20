@@ -6,7 +6,7 @@ dl() {
 }
 
 
-VER="dist-1.7.4"
+VER="dist-1.7.6"
 URL="https://ezplatform.com/content/download/208/file/ezplatform-$VER.tar.bz2"
 
 SRC="/usr/local/src"

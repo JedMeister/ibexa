@@ -1,3 +1,16 @@
+turnkey-ezplatform-15 (1) turnkey; urgency=low
+  
+  * Updated ezplatform version to 1.7.6 LTS
+
+  * Install Adminer directly from stretch/main repo
+
+  * Replace MySQL with MariaDB
+
+  * Note: Please refer to turnkey-core's changelog for changes common to all
+    appliances. Here we only describe changes specdific to this appliance.
+
+ -- Vlad Kuzmenko <vlad.work.here@gmail.com>  Thu, 20, Nov 2017 03:23:42 +0200
+
 turnkey-ezplatform-14.2 (1) turnkey; urgency=low
 
   * eZPublish 5 -> eZ Platform
