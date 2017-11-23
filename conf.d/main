@@ -45,7 +45,7 @@ a2ensite ezplatform
 a2enmod rewrite
 
 # start services
-/etc/init.d/mysql start
+service mysql start
 
 # setup the database
 MYSQL_BATCH="mysql --user=root --password=$MYSQL_PASS --batch"
@@ -61,4 +61,4 @@ rm -rf app/logs/* app/cache/*
 chown -R www-data:www-data app/cache app/logs web
 
 # stop services
-/etc/init.d/mysql stop
+service mysql stop
