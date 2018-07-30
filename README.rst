@@ -1,5 +1,5 @@
 eZ Platform - Enterprise Content Management System
-=================================================
+==================================================
 
 `eZ Platform`_ is a web content management system that supports the
 development of customized web applications. It features professional and
