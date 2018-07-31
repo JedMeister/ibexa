@@ -14,6 +14,10 @@ and on top of that:
    
    - Installed from upstream source code to /var/www/ezplatform
 
+   **Security note**: Updates to eZ Platform may require supervision so
+   they **ARE NOT** configured to install automatically. See `eZ Platform
+   documentation`_ for upgrading.
+
 - SSL support out of the box.
 - `Adminer`_ administration frontend for MySQL (listening on port
    12322 - uses SSL).
@@ -29,6 +33,7 @@ Credentials *(passwords set at first boot)*
 - eZ Platform: username is **admin**
 
 
-.. _eZ Platform: http://ezplatform.com/
+.. _eZ Platform: https://ezplatform.com/
 .. _TurnKey Core: https://www.turnkeylinux.org/core
-.. _Adminer: http://www.adminer.org/
+.. _Adminer: https://www.adminer.org/
+.. _eZ Platform documentation: https://doc.ezplatform.com/en/1.13/releases/updating_ez_platform/
