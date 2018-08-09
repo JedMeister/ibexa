@@ -25,6 +25,9 @@ and on top of that:
   password recovery).
 - Webmin modules for configuring Apache2, PHP, MySQL and Postfix.
 
+For eZ Publish news and updates, including security updates, we
+recommend that you subscribe to the `eZ Platform Blog`_.
+
 Credentials *(passwords set at first boot)*
 -------------------------------------------
 
@@ -37,3 +40,4 @@ Credentials *(passwords set at first boot)*
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: https://www.adminer.org/
 .. _eZ Platform documentation: https://doc.ezplatform.com/en/1.13/releases/updating_ez_platform/
+.. _eZ Platfrom blog: https://ez.no/Blog/(category)/0
