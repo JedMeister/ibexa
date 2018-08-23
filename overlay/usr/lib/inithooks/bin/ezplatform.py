@@ -14,7 +14,7 @@ import sys
 import getopt
 import inithooks_cache
 
-import hashlib
+import bcrypt
 
 from dialog_wrapper import Dialog
 from mysqlconf import MySQL
@@ -63,11 +63,11 @@ def main():
 
     inithooks_cache.write('APP_EMAIL', email)
     # tweak configuration files
-    # calculate password hash and tweak database
-    hash = hashlib.md5("admin\n%s" % password).hexdigest()
+
+    hashpass = bcrypt.hashpw(password, bcrypt.gensalt())
 
     m = MySQL()
-    m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hash)
+    m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hashpass)
     m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
 
     m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
