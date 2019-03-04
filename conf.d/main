@@ -48,6 +48,11 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
+# make temp swap file to work around limitations of building on system with low RAM
+dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
+mkswap /var/swap.1
+swapon /var/swap.1
+
 COMPOSER_MEMORY_LIMIT=-1 composer install
 
 php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env prod clean
@@ -58,3 +63,7 @@ chown -R www-data:www-data app/cache app/logs web
 
 # stop services
 service mysql stop
+
+# remove temp swap file
+swapoff /var/swap.1
+rm -rf /var/swap.1
