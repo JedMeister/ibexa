@@ -1,3 +1,9 @@
+turnkey-ezplatform-15.2 (1) turnkey; urgency=low
+
+  * Updated eZ Platform to latest v1.13.x LTS branch - v1.13.4.1+.
+
+ -- Jeremy Davis <jeremy@turnkeylinux.org>  Mon, 04 Mar 2019 13:22:20 +1100
+
 turnkey-ezplatform-15.1 (1) turnkey; urgency=low
 
   * Rebuild to resolve inadvertant removal of mariadb during sec-updates

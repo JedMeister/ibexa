@@ -5,6 +5,7 @@ php-gd
 php-curl
 php-intl
 php-xsl
+php-mbstring
 bzip2
 
 python-bcrypt

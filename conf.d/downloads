@@ -1,13 +1,9 @@
 #!/bin/bash -ex
 
-dl() {
-    [ "$FAB_HTTP_PROXY" ] && PROXY="--proxy $FAB_HTTP_PROXY"
-    cd $2; curl -L -f -O $PROXY $1; cd -
-}
 
 
-VER="1.13.0"
-URL="https://ezplatform.com/content/download/272/file/ezplatform-$VER.tar.bz2"
+VER="1.13"
+WEBROOT="/var/www/ezplatform"
+URL="https://github.com/ezsystems/ezplatform.git"
 
-SRC="/usr/local/src"
-dl $URL $SRC
+git clone --depth 1 --branch=$VER $URL $WEBROOT
