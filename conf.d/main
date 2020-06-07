@@ -9,6 +9,10 @@ ADMIN_MAIL=admin@example.com
 
 WEBROOT=/var/www/ezplatform
 
+
+echo "deb [signed-by=/usr/share/keyrings/yarn.gpg] https://dl.yarnpkg.com/debian/ stable main" > /etc/apt/sources.list.d/yarn.list
+apt update && apt install --no-install-recommends yarn
+
 # tweak apache-credit
 CONF=/etc/apache2/mods-available/substitute.conf
 sed -i "s|</body>|</footer>|g" $CONF
