@@ -66,8 +66,8 @@ def main():
     
     m = MySQL()
     
-    m.execute('UPDATE ezplatform.ezuser SET password_hash="%s"  WHERE login="admin";' % hashpass)
-    m.execute('UPDATE ezplatform.ezuser SET password_updated_at="%s"  WHERE login="admin";' % today_unixtime)
+    m.execute('UPDATE ezplatform.ezuser SET password_hash=%s  WHERE login="admin";' % hashpass)
+    m.execute('UPDATE ezplatform.ezuser SET password_updated_at=%s  WHERE login="admin";' % today_unixtime)
     m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
     m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
 
