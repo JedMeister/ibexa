@@ -1,3 +1,14 @@
+turnkey-ezplatform-16.0 (1) turnkey; urgency=low
+
+  * Update eZ Platform to latest v3.0.x LTS version - v3.0.5.
+
+  * Update eZ Platform inithook to python3.
+
+  * Note: Please refer to turnkey-core's v16.0 changelog for changes common to
+    all appliances. Here we only describe changes specific to this appliance.
+
+ -- Zhenya Hvorostian <zhenya@turnkeylinux.org>  Mon, 29 Jun 2020 21:23:00 +0300
+
 turnkey-ezplatform-15.2 (1) turnkey; urgency=low
 
   * Updated eZ Platform to latest v1.13.x LTS branch - v1.13.4.1+.
