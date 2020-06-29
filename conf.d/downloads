@@ -2,7 +2,7 @@
 
 
 
-VER="3.0"
+VER="v3.0.5"
 WEBROOT="/var/www/ezplatform"
 URL="https://github.com/ezsystems/ezplatform.git"
 git clone --depth 1 --branch=$VER $URL $WEBROOT

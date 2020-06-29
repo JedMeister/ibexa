@@ -16,11 +16,6 @@ import inithooks_cache
 
 import bcrypt
 import time
-import datetime
-import time as mod_time
-from datetime import datetime
-from datetime import datetime, timedelta
-from datetime import date, timedelta  
 
 from dialog_wrapper import Dialog
 from mysqlconf import MySQL
@@ -66,12 +61,11 @@ def main():
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
-    # tweak configuration files
     hashpass = bcrypt.hashpw(password.encode('utf-8'), bcrypt.gensalt()).decode('utf-8')
-    m = MySQL()
     today_unixtime = int(time.time())  
     
-    m.execute('UPDATE ezplatform.ezuser SET password_hash_type="7" WHERE login="admin";')
+    m = MySQL()
+    
     m.execute('UPDATE ezplatform.ezuser SET password_hash="%s"  WHERE login="admin";' % hashpass)
     m.execute('UPDATE ezplatform.ezuser SET password_updated_at="%s"  WHERE login="admin";' % today_unixtime)
     m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)

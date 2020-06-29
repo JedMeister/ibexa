@@ -56,6 +56,7 @@ composer ezplatform-install --no-dev
 composer run-script post-install-cmd --no-dev
 chown -R www-data:www-data var/
 
+sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php/7.3/cli/php.ini
 # stop services
 service mysql stop
 
