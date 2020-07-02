@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 """Set eZ Platform admin password, email and domain to serve
 
 Option:
@@ -12,20 +12,20 @@ import os
 import re
 import sys
 import getopt
-import inithooks_cache
+import time
 
 import bcrypt
 
+import inithooks_cache
 from dialog_wrapper import Dialog
 from mysqlconf import MySQL
-from executil import system
 
 
 def usage(s=None):
     if s:
-        print >> sys.stderr, "Error:", s
-    print >> sys.stderr, "Syntax: %s [options]" % sys.argv[0]
-    print >> sys.stderr, __doc__
+        print("Error:", s, file=sys.stderr)
+    print("Syntax: %s [options]" % sys.argv[0], file=sys.stderr)
+    print(__doc__, file=sys.stderr)
     sys.exit(1)
 
 
@@ -33,7 +33,7 @@ def main():
     try:
         opts, args = getopt.gnu_getopt(sys.argv[1:], "h",
                                        ['help', 'pass=', 'email='])
-    except getopt.GetoptError, e:
+    except getopt.GetoptError as e:
         usage(e)
 
     password = ""
@@ -51,7 +51,6 @@ def main():
         password = d.get_password(
             "eZ Platform Password",
             "Enter new password for the eZ Platform 'admin' account.")
-
     if not email:
         if 'd' not in locals():
             d = Dialog('TurnKey Linux - First boot configuration')
@@ -62,16 +61,17 @@ def main():
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
-    # tweak configuration files
-
-    hashpass = bcrypt.hashpw(password, bcrypt.gensalt())
+    hashpass = bcrypt.hashpw(password.encode('utf-8'),
+                             bcrypt.gensalt()).decode('utf-8')
+    today_unixtime = int(time.time())
 
     m = MySQL()
-    m.execute('UPDATE ezplatform.ezuser SET password_hash="%s" WHERE login="admin";' % hashpass)
-    m.execute('UPDATE ezplatform.ezuser SET email="%s" WHERE login="admin";' % email)
 
+    m.execute('UPDATE ezplatform.ezuser SET password_hash=%s  WHERE login="admin";', (hashpass))
+    m.execute('UPDATE ezplatform.ezuser SET password_updated_at=%s  WHERE login="admin";', (today_unixtime))
+    m.execute('UPDATE ezplatform.ezuser SET email=%s WHERE login="admin";', (email))
     m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
+
 
 if __name__ == "__main__":
     main()
-

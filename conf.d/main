@@ -16,22 +16,11 @@ sed -i "s|</body>|</footer>|g" $CONF
 cd $WEBROOT
 
 # php.ini tweaks
-PHPINI=/etc/php/7.0/apache2/php.ini
-sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php/7.0/cli/php.ini
+PHPINI=/etc/php/7.3/apache2/php.ini
 sed -i "s|^memory_limit.*|memory_limit = 256M|" $PHPINI
 sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
+sed -i "s|^memory_limit.*|memory_limit = 1G|" /etc/php/7.3/cli/php.ini
 
-touch $WEBROOT/app/config/parameters.yml
-cat >$WEBROOT/app/config/parameters.yml<<EOF
-parameters:
-    secret: TURNKEY_SECRET
-    database_driver: pdo_mysql
-    database_host: localhost
-    database_port: 3306
-    database_name: $DB_NAME
-    database_user: $DB_USER
-    database_password: $DB_PASS
-EOF
 
 # configure apache
 a2dissite 000-default
@@ -48,22 +37,23 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
-# make temp swap file to work around limitations of building on system with low RAM
-dd if=/dev/zero of=/var/swap.1 bs=1M count=1024
-mkswap /var/swap.1
-swapon /var/swap.1
+ENVFILE=/var/www/ezplatform/.env
 
-COMPOSER_MEMORY_LIMIT=-1 composer install
+sed -i "s|APP_ENV=dev|APP_ENV=prod|" $ENVFILE
+sed -i "s|DATABASE_PASSWORD=SetYourOwnPassword|DATABASE_PASSWORD=$DB_PASS|" $ENVFILE
+sed -i "s|DATABASE_USER=ezp|DATABASE_USER=$DB_USER|" $ENVFILE
+sed -i "s|DATABASE_PASSWORD=SetYourOwnPassword|DATABASE_PASSWORD=$DB_PASS|" $ENVFILE
+sed -i "s|DATABASE_NAME=ezp|DATABASE_NAME=$DB_NAME|" $ENVFILE
+sed -i "s|DATABASE_HOST=db|DATABASE_HOST=localhost|" $ENVFILE
 
-php -d memory_limit=-1 /var/www/ezplatform/app/console ezplatform:install --env prod clean
-composer run-script post-install-cmd
 
-rm -rf app/logs/* app/cache/*
-chown -R www-data:www-data app/cache app/logs web
+COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev
+composer ezplatform-install --no-dev
 
+composer run-script post-install-cmd --no-dev
+chown -R www-data:www-data var/
+
+sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php/7.3/cli/php.ini
 # stop services
 service mysql stop
 
-# remove temp swap file
-swapoff /var/swap.1
-rm -rf /var/swap.1

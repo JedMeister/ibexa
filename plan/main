@@ -7,5 +7,5 @@ php-intl
 php-xsl
 php-mbstring
 bzip2
-
-python-bcrypt
+make
+python3-bcrypt
