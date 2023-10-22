@@ -14,10 +14,10 @@ import sys
 import getopt
 import time
 
-import bcrypt
+from passlib.apps import phpass_context
 
 import inithooks_cache
-from dialog_wrapper import Dialog
+from libinithooks.dialog_wrapper import Dialog
 from mysqlconf import MySQL
 
 
@@ -61,8 +61,7 @@ def main():
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
-    hashpass = bcrypt.hashpw(password.encode('utf-8'),
-                             bcrypt.gensalt()).decode('utf-8')
+    hashpass = phpass_context.hash(password, indent="2y")
     today_unixtime = int(time.time())
 
     m = MySQL()
@@ -70,7 +69,7 @@ def main():
     m.execute('UPDATE ezplatform.ezuser SET password_hash=%s  WHERE login="admin";', (hashpass))
     m.execute('UPDATE ezplatform.ezuser SET password_updated_at=%s  WHERE login="admin";', (today_unixtime))
     m.execute('UPDATE ezplatform.ezuser SET email=%s WHERE login="admin";', (email))
-    m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
+#    m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
 
 
 if __name__ == "__main__":

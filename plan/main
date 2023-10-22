@@ -8,4 +8,5 @@ php-xsl
 php-mbstring
 bzip2
 make
-python3-bcrypt
+
+python3-passlib

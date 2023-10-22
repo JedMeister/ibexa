@@ -1,8 +1,7 @@
 #!/bin/bash -ex
 
-
-
-VER="v3.0.5"
+VER="v3.3.35"
 WEBROOT="/var/www/ezplatform"
-URL="https://github.com/ezsystems/ezplatform.git"
+URL="https://github.com/ibexa/oss-skeleton"
+
 git clone --depth 1 --branch=$VER $URL $WEBROOT

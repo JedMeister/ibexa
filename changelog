@@ -1,3 +1,9 @@
+turnkey-ezplatform-18.0 (1) turnkey; urgency=low
+
+  * Update eZ Platform to latest v3.3.x LTS version - now Ibexa DXP v3.3.35.
+
+ -- Zhenya Hvorostian <zhenya@turnkeylinux.org> Sun, 22 Oct 2023 14:44:00 +0300
+
 turnkey-ezplatform-16.0 (1) turnkey; urgency=low
 
   * Update eZ Platform to latest v3.0.x LTS version - v3.0.5.
