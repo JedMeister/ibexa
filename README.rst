@@ -1,5 +1,5 @@
 Ibexa DXP (formerly eZ Platform) - Enterprise Content Management System
-==================================================
+=======================================================================
 
 `Ibexa`_ is a web content management system that supports the
 development of customized web applications. It features professional and
@@ -12,7 +12,7 @@ and on top of that:
 
 - Ibexa configurations:
    
-   - Installed from upstream source code to /var/www/ezplatform
+   - Installed from upstream source code to /var/www/ibexa
 
    **Security note**: Updates to Ibexa may require supervision so
    they **ARE NOT** configured to install automatically. See `Ibexa

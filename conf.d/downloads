@@ -1,7 +1,17 @@
 #!/bin/bash -ex
 
-VER="v3.3.35"
-WEBROOT="/var/www/ezplatform"
-URL="https://github.com/ibexa/oss-skeleton"
+# dynamically pull major-minor LTS version from website
+REL_PAGE=https://support.ibexa.co/Public/service-life
+LTS_VER=$(curl $REL_PAGE \
+            | sed -En "s|.*Ibexa-DXP-(v[0-9.]+)-LTS.*|\1|p" \
+            | sort -V \
+            | tail -1)
+
+# dynamically get full LTS version from gh_releases
+REPO=ibexa/oss-skeleton
+VER=$(gh_releases $REPO | grep $LTS_VER | tail -1)
+
+WEBROOT="/var/www/$(dirname $REPO)"
+URL="https://github.com/$REPO"
 
 git clone --depth 1 --branch=$VER $URL $WEBROOT
