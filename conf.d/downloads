@@ -9,7 +9,7 @@ LTS_VER=$(curl $REL_PAGE \
 
 # dynamically get full LTS version from gh_releases
 REPO=ibexa/oss-skeleton
-VER=$(gh_releases $REPO | grep $LTS_VER | tail -1)
+VER=$(gh_releases $REPO | grep $LTS_VER | sort -V | tail -1)
 
 WEBROOT="/var/www/$(dirname $REPO)"
 URL="https://github.com/$REPO"

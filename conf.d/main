@@ -22,7 +22,7 @@ sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
 
 # configure apache
 a2dissite 000-default
-a2ensite ezplatform
+a2ensite ibexa
 a2enmod rewrite
 
 # start services
