@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-"""Set eZ Platform admin password, email and domain to serve
+"""Set Ibexa admin password, email and domain to serve
 
 Option:
     --pass=     unless provided, will ask interactively
@@ -49,15 +49,15 @@ def main():
     if not password:
         d = Dialog('TurnKey Linux - First boot configuration')
         password = d.get_password(
-            "eZ Platform Password",
-            "Enter new password for the eZ Platform 'admin' account.")
+            "Ibexa Password",
+            "Enter new password for the Ibexa 'admin' account.")
     if not email:
         if 'd' not in locals():
             d = Dialog('TurnKey Linux - First boot configuration')
 
         email = d.get_email(
-            "eZ Platform Email",
-            "Enter email address for the eZ Platform 'admin' account.",
+            "Ibexa Email",
+            "Enter email address for the Ibexa 'admin' account.",
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
@@ -66,9 +66,9 @@ def main():
 
     m = MySQL()
 
-    m.execute('UPDATE ezplatform.ezuser SET password_hash=%s  WHERE login="admin";', (hashpass))
-    m.execute('UPDATE ezplatform.ezuser SET password_updated_at=%s  WHERE login="admin";', (today_unixtime))
-    m.execute('UPDATE ezplatform.ezuser SET email=%s WHERE login="admin";', (email))
+    m.execute('UPDATE ibexa.ezuser SET password_hash=%s  WHERE login="admin";', (hashpass))
+    m.execute('UPDATE ibexa.ezuser SET password_updated_at=%s  WHERE login="admin";', (today_unixtime))
+    m.execute('UPDATE ibexa.ezuser SET email=%s WHERE login="admin";', (email))
 #    m.execute('UPDATE ezplatform.ezcontentobject_name SET name="TurnKey Linux eZ Platform" WHERE contentobject_id="1"')
 
 
