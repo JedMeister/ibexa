@@ -3,6 +3,10 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
   * eZ Platform renamed to Ibexa DXP; install latest LTS: v3.3.36.
     [Zhenya Hvorostian <zhenya@turnkeylinux.org>]
 
+  * Confconsole: bugfix broken DNS-01 Let's Encrypt challenge- closes #1876 &
+    #1895.
+    [Jeremy Davis <jeremy@turnkeylinux.org>]
+
   * Ensure hashfile includes URL to public key - closes #1864.
 
   * Include webmin-logviewer module by default - closes #1866.
@@ -40,6 +44,7 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
   * Web management console (webmin):
     - Upgraded webmin to v2.105.
+    - Replace webmin-shell with webmin-xterm module by default - closes #1904.
     - Removed stunnel reverse proxy (Webmin hosted directly now).
     - Ensure that Webmin uses HTTPS with default cert
       (/etc/ssl/private/cert.pem).
@@ -47,6 +52,8 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
   * Web shell (shellinabox):
     - Completely removed in v18.0 (Webmin now has a proper interactive shell).
+    - Note: previous v18.0 releases did not include webmin-xterm pkg - see
+      above webmin note &/or #1904.
 
   * Backup (tklbam):
     - Ported dependencies to Debian Bookworm; otherwise unchanged.
@@ -73,7 +80,15 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
   * Include and enable mod_evasive and mod_security2 by default in Apache.
     [ Stefan Davis <Stefan@turnkeylinux.org> ]
 
+  * Includes new 'tkl-upgrade-php' helper script - to allow easy update/change
+    of PHP version - closes #1892.
+    [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
+
   * Debian default PHP updated to v8.2.
+
+  * Include new 'tkl-update-php' script - to make updating/changing PHP
+    version easier for end users.
+    [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
 
   * DEV: Add support for setting max_execution_time & max_input_vars in
     php.ini via appliance Makefile (PHP_MAX_EXECUTION_TIME &
@@ -81,7 +96,7 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
   * Use MariaDB (MySQL replacement) v10.11.3 (from debian repos).
 
- -- Jeremy Davis <jeremy@turnkeylinux.org>  Tue, 09 Jan 2024 22:09:21 +0000
+ -- Jeremy Davis <jeremy@turnkeylinux.org>  Fri, 12 Apr 2024 02:48:04 +0000
 
 turnkey-ezplatform-16.0 (1) turnkey; urgency=low
 
@@ -231,4 +246,3 @@ turnkey-ezpublish-12.0 (1) turnkey; urgency=low
     appliances. Here we only describe changes specific to this appliance.
 
  -- Alon Swartz <alon@turnkeylinux.org>  Wed, 01 Aug 2012 08:00:00 +0200
-
