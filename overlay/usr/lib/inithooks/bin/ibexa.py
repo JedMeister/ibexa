@@ -61,7 +61,7 @@ def main():
             "admin@example.com")
 
     inithooks_cache.write('APP_EMAIL', email)
-    hashpass = phpass_context.hash(password, indent="2y")
+    hashpass = phpass_context.hash(password)
     today_unixtime = int(time.time())
 
     m = MySQL()
