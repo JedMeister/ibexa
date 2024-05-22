@@ -1,7 +1,7 @@
-eZ Platform - Enterprise Content Management System
-==================================================
+Ibexa DXP (formerly eZ Platform) - Enterprise Content Management System
+=======================================================================
 
-`eZ Platform`_ is a web content management system that supports the
+`Ibexa`_ is a web content management system that supports the
 development of customized web applications. It features professional and
 secure development of web applications, content versioning, media
 library, role-based rights management, mobile development, sitemaps,
@@ -10,12 +10,12 @@ search and printing.
 This appliance includes all the standard features in `TurnKey Core`_,
 and on top of that:
 
-- eZ Platform configurations:
+- Ibexa configurations:
    
-   - Installed from upstream source code to /var/www/ezplatform
+   - Installed from upstream source code to /var/www/ibexa
 
-   **Security note**: Updates to eZ Platform may require supervision so
-   they **ARE NOT** configured to install automatically. See `eZ Platform
+   **Security note**: Updates to Ibexa may require supervision so
+   they **ARE NOT** configured to install automatically. See `Ibexa
    documentation`_ for upgrading.
 
 - SSL support out of the box.
@@ -25,19 +25,19 @@ and on top of that:
   password recovery).
 - Webmin modules for configuring Apache2, PHP, MySQL and Postfix.
 
-For eZ Publish news and updates, including security updates, we
-recommend that you subscribe to the `eZ Platform Blog`_.
+For Ibexa news and updates, including security updates, we
+recommend that you subscribe to the `Ibexa Blog`_.
 
 Credentials *(passwords set at first boot)*
 -------------------------------------------
 
 - Webmin, SSH, MySQL: username **root**
 - Adminer: username **adminer**
-- eZ Platform: username is **admin**
+- Ibexa: username is **admin**
 
 
-.. _eZ Platform: https://ezplatform.com/
+.. _Ibexa: https://ibexa.co
 .. _TurnKey Core: https://www.turnkeylinux.org/core
 .. _Adminer: https://www.adminer.org/
-.. _eZ Platform documentation: https://doc.ezplatform.com/en/1.13/releases/updating_ez_platform/
-.. _eZ Platfrom blog: https://ez.no/Blog/(category)/0
+.. _Ibexa documentation: https://doc.ibexa.co/en/3.3/updating/update_ibexa_dxp/
+.. _Ibexa blog: https://www.ibexa.co/blog

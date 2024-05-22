@@ -1,13 +1,15 @@
-#!/bin/sh -ex
+#!/bin/bash -ex
 
-DB_NAME=ezplatform
-DB_USER=ezplatform
+DB_NAME=ibexa
+DB_USER=ibexa
 DB_PASS=$(mcookie)
 
-ADMIN_PASS=turnkey
-ADMIN_MAIL=admin@example.com
+WEBROOT=/var/www/ibexa
 
-WEBROOT=/var/www/ezplatform
+# disable composer memory limit for install
+export COMPOSER_MEMORY_LIMIT=-1
+# set turnkey-composer default "COMPOSER_HOME"
+sed -i "\|^HOME_FALLBACK|s|=.*|=$WEBROOT|" /usr/local/bin/turnkey-composer
 
 # tweak apache-credit
 CONF=/etc/apache2/mods-available/substitute.conf
@@ -16,15 +18,13 @@ sed -i "s|</body>|</footer>|g" $CONF
 cd $WEBROOT
 
 # php.ini tweaks
-PHPINI=/etc/php/7.3/apache2/php.ini
+PHPINI=/etc/php/?.?/apache2/php.ini
 sed -i "s|^memory_limit.*|memory_limit = 256M|" $PHPINI
 sed -i "s|^;date.timezone.*|date.timezone = \"America/Los_Angeles\"|" $PHPINI
-sed -i "s|^memory_limit.*|memory_limit = 1G|" /etc/php/7.3/cli/php.ini
-
 
 # configure apache
 a2dissite 000-default
-a2ensite ezplatform
+a2ensite ibexa
 a2enmod rewrite
 
 # start services
@@ -37,23 +37,23 @@ MYSQL_ADMIN="mysqladmin --user=root --password=$MYSQL_PASS"
 $MYSQL_ADMIN create $DB_NAME
 $MYSQL_BATCH --execute "grant all privileges on $DB_NAME.* to $DB_USER@localhost identified by '$DB_PASS';"
 
-ENVFILE=/var/www/ezplatform/.env
+ENVFILE=$WEBROOT/.env
 
+echo "DATABASE_DRIVER=\"pdo_mysql\"" >> $ENVFILE
 sed -i "s|APP_ENV=dev|APP_ENV=prod|" $ENVFILE
-sed -i "s|DATABASE_PASSWORD=SetYourOwnPassword|DATABASE_PASSWORD=$DB_PASS|" $ENVFILE
-sed -i "s|DATABASE_USER=ezp|DATABASE_USER=$DB_USER|" $ENVFILE
-sed -i "s|DATABASE_PASSWORD=SetYourOwnPassword|DATABASE_PASSWORD=$DB_PASS|" $ENVFILE
-sed -i "s|DATABASE_NAME=ezp|DATABASE_NAME=$DB_NAME|" $ENVFILE
-sed -i "s|DATABASE_HOST=db|DATABASE_HOST=localhost|" $ENVFILE
+sed -i "s|DATABASE_URL=\"postgres.*\"||" $ENVFILE
+sed -i "s|# DATABASE_URL=\"mysql:\/\/.*\"|DATABASE_URL=\"mysql://$DB_USER:$DB_PASS@localhost:3306/$DB_NAME?serverVersion=15\"|" $ENVFILE
 
+mkdir /var/www/ibexa/vendor
+chown -R www-data:www-data /var/www/ibexa
+turnkey-composer install --no-dev --no-interaction
 
-COMPOSER_MEMORY_LIMIT=-1 composer install --no-dev
-composer ezplatform-install --no-dev
+php $WEBROOT/bin/console ibexa:install
+php $WEBROOT/bin/console ibexa:graphql:generate-schema
 
-composer run-script post-install-cmd --no-dev
-chown -R www-data:www-data var/
+turnkey-composer run-script post-install-cmd --no-dev --no-interaction
 
-sed -i "s|^memory_limit.*|memory_limit = 256M|" /etc/php/7.3/cli/php.ini
+chown -R www-data:www-data $WEBROOT/var
+
 # stop services
 service mysql stop
-
