@@ -3,6 +3,12 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
   * eZ Platform renamed to Ibexa DXP; install latest LTS: v3.3.36.
     [Zhenya Hvorostian <zhenya@turnkeylinux.org>]
 
+  * Redirect HTTP -> HTTPS.
+    [Stefan Davis <stefan@turnkeylinux.org>]
+
+  * DEV: Dynamically download latest LTS at build time.
+    [Jeremy Davis <jeremy@turnkeylinux.org>]
+
   * Confconsole: bugfix broken DNS-01 Let's Encrypt challenge- closes #1876 &
     #1895.
     [Jeremy Davis <jeremy@turnkeylinux.org>]
@@ -96,7 +102,10 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
   * Use MariaDB (MySQL replacement) v10.11.3 (from debian repos).
 
- -- Jeremy Davis <jeremy@turnkeylinux.org>  Fri, 12 Apr 2024 02:48:04 +0000
+  * Install composer from Debian repos (previously installed from source)
+    [ Stefan Davis <Stefan@turnkeylinux.org> ]
+
+ -- Jeremy Davis <jeremy@turnkeylinux.org>  Tue, 28 May 2024 20:18:42 +0000
 
 turnkey-ezplatform-16.0 (1) turnkey; urgency=low
 
