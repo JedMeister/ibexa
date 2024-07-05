@@ -1,16 +1,13 @@
+
 turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
-  * eZ Platform renamed to Ibexa DXP; install latest LTS: v3.3.36.
+  * eZ Platform renamed to Ibexa DXP; install latest LTS: v3.3.37.
     [Zhenya Hvorostian <zhenya@turnkeylinux.org>]
 
   * Redirect HTTP -> HTTPS.
     [Stefan Davis <stefan@turnkeylinux.org>]
 
   * DEV: Dynamically download latest LTS at build time.
-    [Jeremy Davis <jeremy@turnkeylinux.org>]
-
-  * Confconsole: bugfix broken DNS-01 Let's Encrypt challenge- closes #1876 &
-    #1895.
     [Jeremy Davis <jeremy@turnkeylinux.org>]
 
   * Ensure hashfile includes URL to public key - closes #1864.
@@ -33,6 +30,7 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
     - Improve code quality: implement typing, fstrings and make (mostly) PEP8
       compliant.
       [Stefan Davis <stefan@turnkeylinux.org> & Jeremy Davis
+    - General dehydrated-wrapper code cleanup - now passes shellcheck.
 
   * Firstboot Initialization (inithooks):
     - Refactor start up (now hooks into getty process, rather than having it's
@@ -80,21 +78,19 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
     - Improve turnkey-artisan so that it works reliably in cron jobs (only
       Laravel based LAMP apps).
 
-  * Set mod_evasive log location - makes debugging easier.
-    [ Jeremy Davis <jeremy@turnkeylinux.org> ]
-
   * Include and enable mod_evasive and mod_security2 by default in Apache.
     [ Stefan Davis <Stefan@turnkeylinux.org> ]
+
+  * Apache mod_evasive config improvements:
+    - Bump DOSPageCount from (default) 2 -> 5 - closes #1951.
+    - DOSLogDir - use default log dir & fix permissions - closes #1950.
+    - Add DOSWhitelist example - commented out.
 
   * Includes new 'tkl-upgrade-php' helper script - to allow easy update/change
     of PHP version - closes #1892.
     [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
 
   * Debian default PHP updated to v8.2.
-
-  * Include new 'tkl-update-php' script - to make updating/changing PHP
-    version easier for end users.
-    [Marcos Méndez @ POPSOLUTIONS <https://github.com/marcos-mendez>]
 
   * DEV: Add support for setting max_execution_time & max_input_vars in
     php.ini via appliance Makefile (PHP_MAX_EXECUTION_TIME &
@@ -105,7 +101,7 @@ turnkey-ibexa-18.0 (1) turnkey; urgency=low
   * Install composer from Debian repos (previously installed from source)
     [ Stefan Davis <Stefan@turnkeylinux.org> ]
 
- -- Jeremy Davis <jeremy@turnkeylinux.org>  Tue, 28 May 2024 20:18:42 +0000
+ -- Jeremy Davis <jeremy@turnkeylinux.org>  Fri, 05 Jul 2024 11:35:39 +0000
 
 turnkey-ezplatform-16.0 (1) turnkey; urgency=low
 
