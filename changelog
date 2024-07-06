@@ -1,4 +1,3 @@
-
 turnkey-ibexa-18.0 (1) turnkey; urgency=low
 
   * eZ Platform renamed to Ibexa DXP; install latest LTS: v3.3.37.
